@@ -36,6 +36,11 @@ func (h Handlers) UserDetailsByID(c *gin.Context) {
 		return
 	}
 
+	if input.UserID <= 0 {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error parsing json": "Enter a valid user Id"})
+		return
+	}
+
 	resp, err := h.UserClient.UserDetails(c, &pb.UserDetailsRequest{UserID: input.UserID})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -53,6 +58,10 @@ func (h Handlers) UserDetailsByList(c *gin.Context) {
 		return
 	}
 
+	if len(input.UserID) == 0 {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error parsing json": "Enter a valid user Id"})
+		return
+	}
 	resp, err := h.UserClient.UserListDetails(c, &pb.UserListDetailsRequest{UserIDList: input.UserID})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
