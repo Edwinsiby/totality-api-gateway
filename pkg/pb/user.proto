@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option go_package = "/pkg/pb";
+
+package user;
+
+service User{
+    rpc HealthCheck(Request) returns (Response){}
+    rpc UserDetails(UserDetailsRequest) returns(UserDetailsResponse){}
+    rpc UserListDetails(UserListDetailsRequest) returns(UserListDetailsResponse){}
+}
+
+message Request{
+    string Data = 1;
+}
+
+message Response{
+    string Result = 1;
+}
+
+message UserDetailsRequest{
+    int32 UserID = 1;
+}
+
+message UserDetails{
+    int32 UserID     = 1;
+    string FirstName = 2;
+    string City      = 3;
+    string Phone     = 4;
+    float  Height    = 5;
+    bool   Married   = 6;
+}
+
+message UserDetailsResponse{
+   UserDetails Result = 1;
+}
+
+message UserListDetailsRequest{
+    repeated int32  UserIDList  = 1;
+}
+
+message UserListDetailsResponse{
+    repeated UserDetails Result = 1;
+    repeated int32  NotFound    = 2;
+}
+
